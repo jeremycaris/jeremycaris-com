@@ -1,0 +1,294 @@
+---
+const cards = [
+  {
+    href: 'https://passgrinder.com',
+    label: 'PassGrinder',
+    domain: 'passgrinder.com',
+    bg: "url('/img/passgrinder.png')",
+  },
+  {
+    href: 'https://interpretmydream.ai',
+    label: 'Interpret My Dream',
+    domain: 'interpretmydream.ai',
+    bg: "url('/img/interpretmydream.png')",
+  },
+  {
+    href: 'https://fieldguideforlife.org',
+    label: 'Field Guide for Life',
+    domain: 'fieldguideforlife.org',
+    bg: "url('/img/fieldguideforlife.png')",
+  },
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeremy Caris</title>
+    <meta name="description" content="Jeremy Caris — projects and work." />
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', stored ?? (prefersDark ? 'dark' : 'light'));
+      })();
+    </script>
+  </head>
+
+  <body>
+    <button id="theme-toggle" aria-label="Toggle color theme">
+      <svg class="icon icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"/>
+        <line x1="12" y1="2" x2="12" y2="4"/>
+        <line x1="12" y1="20" x2="12" y2="22"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="2" y1="12" x2="4" y2="12"/>
+        <line x1="20" y1="12" x2="22" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+
+    <main>
+      <div class="cards">
+        {cards.map((card) => (
+          <a class="card" href={card.href} target="_blank" rel="noopener noreferrer" style={`background-image: ${card.bg}; background-size: cover; background-position: center;`}>
+            <div class="card-overlay"></div>
+            <div class="card-content">
+              <span class="card-label">{card.label}</span>
+              <span class="card-domain">{card.domain}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <nav class="social-links" aria-label="Social links">
+        <a href="https://facebook.com/jeremycaris" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <a href="https://github.com/jeremycaris" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <a
+          class="email-link"
+          data-u="hello"
+          data-d="jeremycaris.com"
+          href="#contact"
+          aria-label="Send email"
+        >Email</a>
+      </nav>
+    </main>
+
+    <script>
+      const toggle = document.getElementById('theme-toggle')!;
+      const html = document.documentElement;
+
+      toggle.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+
+      const el = document.querySelector<HTMLAnchorElement>('.email-link');
+      if (el) {
+        const addr = `${el.dataset.u}@${el.dataset.d}`;
+        el.href = `mailto:${addr}`;
+        el.textContent = 'Email';
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #f8f8f6;
+    --text: #111110;
+    --text-muted: #888880;
+    --text-faint: #bbbbb0;
+    --toggle-bg: rgba(0, 0, 0, 0.06);
+    --toggle-hover: rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    --card-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.2);
+    --card-radius: 10px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0e0e0d;
+    --text: #f0f0ec;
+    --text-muted: #787870;
+    --text-faint: #444440;
+    --toggle-bg: rgba(255, 255, 255, 0.07);
+    --toggle-hover: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --card-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  #theme-toggle {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 50%;
+    background: var(--toggle-bg);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease;
+    z-index: 10;
+  }
+
+  #theme-toggle:hover {
+    background: var(--toggle-hover);
+    color: var(--text);
+  }
+
+  .icon {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  [data-theme="light"] .icon-moon { display: none; }
+  [data-theme="dark"] .icon-sun { display: none; }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 4rem 1.5rem;
+    width: 100%;
+  }
+
+  .cards {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .card {
+    position: relative;
+    width: 260px;
+    height: 360px;
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .card:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 40%,
+      rgba(0, 0, 0, 0.45) 70%,
+      rgba(0, 0, 0, 0.72) 100%
+    );
+    transition: opacity 0.3s ease;
+  }
+
+  .card:hover .card-overlay {
+    opacity: 0.85;
+  }
+
+  .card-content {
+    position: relative;
+    padding: 1.25rem 1.25rem 1.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .card-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .card-domain {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.01em;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    list-style: none;
+  }
+
+  .social-links a {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.15s ease;
+  }
+
+  .social-links a:hover {
+    color: var(--text);
+  }
+
+  .sep {
+    color: var(--text-faint);
+    font-size: 0.75rem;
+    user-select: none;
+  }
+
+  @media (max-width: 640px) {
+    .cards {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card {
+      width: min(260px, 85vw);
+    }
+  }
+</style>
