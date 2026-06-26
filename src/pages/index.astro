@@ -73,13 +73,7 @@ const cards = [
         <span class="sep" aria-hidden="true">·</span>
         <a href="https://github.com/jeremycaris" target="_blank" rel="noopener noreferrer">GitHub</a>
         <span class="sep" aria-hidden="true">·</span>
-        <a
-          class="email-link"
-          data-u="hello"
-          data-d="jeremycaris.com"
-          href="#contact"
-          aria-label="Send email"
-        >Email</a>
+        <a id="email-link" href="#">Email</a>
       </nav>
     </main>
 
@@ -93,12 +87,8 @@ const cards = [
         localStorage.setItem('theme', next);
       });
 
-      const el = document.querySelector<HTMLAnchorElement>('.email-link');
-      if (el) {
-        const addr = `${el.dataset.u}@${el.dataset.d}`;
-        el.href = `mailto:${addr}`;
-        el.textContent = 'Email';
-      }
+      const el = document.getElementById('email-link');
+      if (el) el.setAttribute('href', 'mailto:' + 'moc.siracymerej@olleh'.split('').reverse().join(''));
     </script>
   </body>
 </html>
